@@ -673,7 +673,7 @@ var StoreTypes = {
 
 var StoreOptions = {
   'map_style': {
-    default: 'roadmap',
+    default: 'dark_style',
     type: StoreTypes.String
   },
   'remember_select_exclude': {
@@ -685,7 +685,7 @@ var StoreOptions = {
     type: StoreTypes.JSON
   },
   'remember_select_rarity_notify': {
-    default: [],
+    default: ['Ultra Rare'],
     type: StoreTypes.JSON
   },
   'showGyms': {
@@ -701,7 +701,7 @@ var StoreOptions = {
     type: StoreTypes.Boolean
   },
   'showLuredPokestopsOnly': {
-    default: 0,
+    default: 1,
     type: StoreTypes.Number
   },
   'showScanned': {
@@ -729,7 +729,7 @@ var StoreOptions = {
     type: StoreTypes.Boolean
   },
   'startAtUserLocation': {
-    default: false,
+    default: true,
     type: StoreTypes.Boolean
   },
   'followMyLocation': {
@@ -741,7 +741,7 @@ var StoreOptions = {
     type: StoreTypes.JSON
   },
   'pokemonIcons': {
-    default: 'highres',
+    default: 'shuffle',
     type: StoreTypes.String
   },
   'iconSizeModifier': {
@@ -749,7 +749,7 @@ var StoreOptions = {
     type: StoreTypes.Number
   },
   'searchMarkerStyle': {
-    default: 'google',
+    default: 'blue',
     type: StoreTypes.String
   },
   'locationMarkerStyle': {
@@ -757,7 +757,7 @@ var StoreOptions = {
     type: StoreTypes.String
   },
   'zoomLevel': {
-    default: 16,
+    default: 15,
     type: StoreTypes.Number
   }
 }
@@ -832,14 +832,17 @@ function setupPokemonMarker (item, map, isBounceDisabled) {
     animationDisabled = true
   }
 
-  var marker = new google.maps.Marker({
+  var marker = new MarkerWithLabel({
     position: {
       lat: item['latitude'],
-      lng: item['longitude']
+	  lng: item['longitude']
     },
     zIndex: 9999,
     map: map,
     icon: icon,
+    labelAnchor: new google.maps.Point(13, -12),
+    labelContent: "<span class='label-countdown' disappears-at=" + item['disappear_time'] + ">00:00</span>",
+    labelClass: "pokemonlabel",
     animationDisabled: animationDisabled
   })
 

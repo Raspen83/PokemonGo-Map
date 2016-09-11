@@ -328,7 +328,7 @@ function pokemonLabel (name, rarity, types, disappearTime, id, latitude, longitu
     </div>
     <div>
       Disappears at ${pad(disappearDate.getHours())}:${pad(disappearDate.getMinutes())}:${pad(disappearDate.getSeconds())}
-      <span class='label-countdown' disappears-at='${disappearTime}'>(00m00s)</span>
+      (<span class='label-countdown' disappears-at='${disappearTime}'>00:00</span>)
     </div>
     <div>
       Location: ${latitude.toFixed(6)}, ${longitude.toFixed(7)}
@@ -436,7 +436,7 @@ function pokestopLabel (expireTime, latitude, longitude) {
       </div>
       <div>
         Lure expires at ${pad(expireDate.getHours())}:${pad(expireDate.getMinutes())}:${pad(expireDate.getSeconds())}
-        <span class='label-countdown' disappears-at='${expireTime}'>(00m00s)</span>
+        (<span class='label-countdown' disappears-at='${disappearTime}'>00:00</span>)
       </div>
       <div>
         Location: ${latitude.toFixed(6)}, ${longitude.toFixed(7)}
@@ -1064,16 +1064,14 @@ var updateLabelDiffTime = function () {
     var timestring = ''
 
     if (disappearsAt < now) {
-      timestring = '(expired)'
+      timestring = 'expired'
     } else {
-      timestring = '('
       if (hours > 0) {
-        timestring = hours + 'h'
+        timestring = hours + ':'
       }
 
-      timestring += ('0' + minutes).slice(-2) + 'm'
-      timestring += ('0' + seconds).slice(-2) + 's'
-      timestring += ')'
+      timestring += ('0' + minutes).slice(-2) + ':'
+      timestring += ('0' + seconds).slice(-2)
     }
 
     $(element).text(timestring)
@@ -1196,6 +1194,66 @@ function centerMap (lat, lng, zoom) {
     map.setZoom(zoom)
   }
 }
+// Map Circles 
+var logoOverlay;
+        var imageBounds = {
+          north: 55.66984,
+          south: 55.652072,
+          east: 13.044462,
+          west: 13.003006
+        };
+
+        logoOverlay = new google.maps.GroundOverlay(
+            'http://www.raspen.se/filer/maplogo.jpg',
+            imageBounds);
+        logoOverlay.setMap(map);
+
+	var mmOverlay;
+        var imageBounds = {
+          north:  59.106527, 
+          south: 59.106276, 
+          east: 14.397580,
+          west: 14.396855
+        };
+
+        mmOverlay = new google.maps.GroundOverlay(
+            'http://www.raspen.se/filer/mmlogo.jpg',
+            imageBounds);
+        mmOverlay.setMap(map);
+
+var citymap = {
+  malmo: {
+    center: {lat: 55.590375, lng: 13.008842},
+    population: 600
+  },
+  krh: {
+    center: {lat: 59.310067, lng: 14.108419},
+    population: 176
+  },
+  lund: {
+    center: {lat: 55.705184, lng: 13.19104},
+    population: 274
+  },
+  degerfors: {
+    center: {lat: 59.23885, lng: 14.433224},
+    population: 122
+  }
+};
+
+for (var city in citymap) {
+    // Add the circle for this city to the map.
+    var cityCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillOpacity: 0.0,
+	  clickable:false,
+      map: map,
+      center: citymap[city].center,
+      radius: citymap[city].population * 10
+    });
+  }
+		
 
 function i8ln (word) {
   if ($.isEmptyObject(i8lnDictionary) && language !== 'en' && languageLookups < languageLookupThreshold) {
