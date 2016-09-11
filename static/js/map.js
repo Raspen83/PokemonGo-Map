@@ -39,6 +39,9 @@ var selectedStyle = 'light'
 var gymTypes = ['Uncontested', 'Mystic', 'Valor', 'Instinct']
 var audio = new Audio('static/sounds/ding.mp3')
 
+
+
+
 //
 // Functions
 //
@@ -92,6 +95,67 @@ function initMap () { // eslint-disable-line no-unused-vars
       ]
     }
   })
+  // Image Overlays
+var logoOverlay;
+        var imageBounds = {
+          north: 55.66984,
+          south: 55.652072,
+          east: 13.044462,
+          west: 13.003006
+        };
+
+        logoOverlay = new google.maps.GroundOverlay(
+            'http://www.raspen.se/filer/maplogo.jpg',
+            imageBounds);
+        logoOverlay.setMap(map);
+
+var mmOverlay;
+        var imageBounds = {
+          north:  59.106527, 
+          south: 59.106276, 
+          east: 14.397580,
+          west: 14.396855
+        };
+
+        mmOverlay = new google.maps.GroundOverlay(
+            'http://www.raspen.se/filer/mmlogo.jpg',
+            imageBounds);
+        mmOverlay.setMap(map);
+
+// Map Circles 
+var citymap = {
+  malmo: {
+    center: {lat: 55.590375, lng: 13.008842},
+    population: 600
+  },
+  krh: {
+    center: {lat: 59.310067, lng: 14.108419},
+    population: 176
+  },
+  lund: {
+    center: {lat: 55.705184, lng: 13.19104},
+    population: 274
+  },
+  degerfors: {
+    center: {lat: 59.23885, lng: 14.433224},
+    population: 122
+  }
+};
+
+for (var city in citymap) {
+    // Add the circle for this city to the map.
+    var cityCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillOpacity: 0.0,
+	  clickable:false,
+      map: map,
+      center: citymap[city].center,
+      radius: citymap[city].population * 10
+    });
+  }
+
 
   var styleNoLabels = new google.maps.StyledMapType(noLabelsStyle, {
     name: 'No Labels'
@@ -1194,66 +1258,7 @@ function centerMap (lat, lng, zoom) {
     map.setZoom(zoom)
   }
 }
-// Map Circles 
-var logoOverlay;
-        var imageBounds = {
-          north: 55.66984,
-          south: 55.652072,
-          east: 13.044462,
-          west: 13.003006
-        };
-
-        logoOverlay = new google.maps.GroundOverlay(
-            'http://www.raspen.se/filer/maplogo.jpg',
-            imageBounds);
-        logoOverlay.setMap(map);
-
-	var mmOverlay;
-        var imageBounds = {
-          north:  59.106527, 
-          south: 59.106276, 
-          east: 14.397580,
-          west: 14.396855
-        };
-
-        mmOverlay = new google.maps.GroundOverlay(
-            'http://www.raspen.se/filer/mmlogo.jpg',
-            imageBounds);
-        mmOverlay.setMap(map);
-
-var citymap = {
-  malmo: {
-    center: {lat: 55.590375, lng: 13.008842},
-    population: 600
-  },
-  krh: {
-    center: {lat: 59.310067, lng: 14.108419},
-    population: 176
-  },
-  lund: {
-    center: {lat: 55.705184, lng: 13.19104},
-    population: 274
-  },
-  degerfors: {
-    center: {lat: 59.23885, lng: 14.433224},
-    population: 122
-  }
-};
-
-for (var city in citymap) {
-    // Add the circle for this city to the map.
-    var cityCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillOpacity: 0.0,
-	  clickable:false,
-      map: map,
-      center: citymap[city].center,
-      radius: citymap[city].population * 10
-    });
-  }
-		
+	
 
 function i8ln (word) {
   if ($.isEmptyObject(i8lnDictionary) && language !== 'en' && languageLookups < languageLookupThreshold) {

@@ -749,11 +749,11 @@ var StoreOptions = {
     type: StoreTypes.Number
   },
   'searchMarkerStyle': {
-    default: 'blue',
+    default: 'none',
     type: StoreTypes.String
   },
   'locationMarkerStyle': {
-    default: 'none',
+    default: 'blue_animated',
     type: StoreTypes.String
   },
   'zoomLevel': {
