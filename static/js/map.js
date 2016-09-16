@@ -322,6 +322,7 @@ function updateSearchStatus () {
 }
 
 function initSidebar () {
+  $('#timers-switch').prop('checked',Store.get('showTimers'))
   $('#gyms-switch').prop('checked', Store.get('showGyms'))
   $('#pokemon-switch').prop('checked', Store.get('showPokemon'))
   $('#pokestops-switch').prop('checked', Store.get('showPokestops'))
@@ -614,7 +615,7 @@ function customizePokemonMarker (marker, item, skipNotification) {
     this.setAnimation(null)
     this.animationDisabled = true
   })
-
+  
   if (!marker.rangeCircle && isRangeActive(map)) {
     marker.rangeCircle = addRangeCircle(marker, map, 'pokemon')
   }
@@ -1599,11 +1600,15 @@ $(function () {
         if (storageKey === 'showRanges') {
           updateMap()
         }
+		if (storageKey === 'showTimers') {
+		  updateMap()
+		}
       }
     }
   }
 
   // Setup UI element interactions
+  $('#timers-switch').change(buildSwitchChangeListener(mapData,['pokemons'],'showTimers'))
   $('#gyms-switch').change(buildSwitchChangeListener(mapData, ['gyms'], 'showGyms'))
   $('#pokemon-switch').change(buildSwitchChangeListener(mapData, ['pokemons'], 'showPokemon'))
   $('#scanned-switch').change(buildSwitchChangeListener(mapData, ['scanned'], 'showScanned'))
