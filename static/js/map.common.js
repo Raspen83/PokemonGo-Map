@@ -685,7 +685,7 @@ var StoreOptions = {
     type: StoreTypes.JSON
   },
   'remember_select_rarity_notify': {
-    default: ['Ultra Rare'],
+    default: [''],
     type: StoreTypes.JSON
   },
   'remember_text_perfection_notify': {
